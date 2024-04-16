@@ -1,0 +1,107 @@
+/* Reset default browser styles */
+body, h1, h2, ul, li, form, input, select {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(photos/b1.jpg);
+    font-family: Arial, sans-serif;
+    background-color: #c0917c;
+    color: #ffffff;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px;
+    background-color: rgba(192, 145, 124, 0.8); /* Semi-transparent background color */
+}
+
+
+nav {
+    background-image: url(photos/b1.jpg);
+    background-color: #ffffff;
+    color: #c0917c;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav h1 {
+    margin: 0;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.tier-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tier {
+    margin-bottom: 20px;
+}
+
+.tier-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.game-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.game-item-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.game-item-description {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.game-item-rating {
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    nav ul li {
+        display: block;
+        margin: 0;
+        text-align: center;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
