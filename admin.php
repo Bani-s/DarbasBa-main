@@ -18,27 +18,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (isset($_POST["name"]) && isset($_POST["tier"])) {
                     $name = $_POST["name"];
                     $tier = $_POST["tier"];
-                    // Implement code to add the game to the database or JSON file
+                    $games = json_decode(file_get_contents('games.json'), true);
+                    $games[$tier][] = $name;
+                    file_put_contents('games.json', json_encode($games, JSON_PRETTY_PRINT));
+                    // Redirect back to admin.php or wherever you need
+                    header("Location: tierlist.php"); // Redirect to tierlist.php after adding the game
+                    exit;
                 }
                 break;
             case "edit":
                 // Process editing an existing game
-                if (isset($_POST["name"]) && isset($_POST["tier"])) {
+                if (isset($_POST["name"]) && isset($_POST["tier"]) && isset($_POST["new_name"])) {
                     $name = $_POST["name"];
                     $tier = $_POST["tier"];
-                    // Implement code to edit the game in the database or JSON file
+                    $newName = $_POST["new_name"];
+                    $games = json_decode(file_get_contents('games.json'), true);
+                    // Find the game to edit and update its name
+                    if (isset($games[$tier])) {
+                        $key = array_search($name, $games[$tier]);
+                        if ($key !== false) {
+                            $games[$tier][$key] = $newName;
+                            file_put_contents('games.json', json_encode($games, JSON_PRETTY_PRINT));
+                        }
+                    }
+                    // Redirect back to admin.php or wherever you need
+                    header("Location: tierlist.php"); // Redirect to tierlist.php after editing the game
+                    exit;
                 }
                 break;
             case "delete":
                 // Process deleting an existing game
-                if (isset($_POST["name"])) {
+                if (isset($_POST["name"]) && isset($_POST["tier"])) {
                     $name = $_POST["name"];
-                    // Implement code to delete the game from the database or JSON file
+                    $tier = $_POST["tier"];
+                    $games = json_decode(file_get_contents('games.json'), true);
+                    // Find the game to delete and remove it from the array
+                    if (isset($games[$tier])) {
+                        $key = array_search($name, $games[$tier]);
+                        if ($key !== false) {
+                            unset($games[$tier][$key]);
+                            file_put_contents('games.json', json_encode($games, JSON_PRETTY_PRINT));
+                        }
+                    }
+                    // Redirect back to admin.php or wherever you need
+                    header("Location: tierlist.php"); // Redirect to tierlist.php after deleting the game
+                    exit;
                 }
                 break;
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -69,22 +99,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="text" id="tier" name="tier" required>
             <input type="submit" value="Add Game">
         </form>
-        <h2>Delete Game</h2>
-        <form action="admin.php" method="post">
-            <input type="hidden" name="action" value="delete">
-            <label for="delete-name">Name:</label>
-            <input type="text" id="delete-name" name="name" required>
-            <input type="submit" value="Delete Game">
-        </form>
-        <h2>Edit Game</h2>
-        <form action="admin.php" method="post">
-            <input type="hidden" name="action" value="edit">
-            <label for="edit-name">Name:</label>
-            <input type="text" id="edit-name" name="name" required>
-            <label for="edit-tier">New Tier:</label>
-            <input type="text" id="edit-tier" name="tier" required>
-            <input type="submit" value="Edit Game">
-        </form>
+       <!-- Edit Game Form -->
+<form action="admin.php" method="post">
+    <input type="hidden" name="action" value="edit">
+    <label for="edit-name">Name:</label>
+    <input type="text" id="edit-name" name="name" required>
+    <label for="edit-tier">New Tier:</label>
+    <input type="text" id="edit-tier" name="tier" required>
+    <input type="submit" value="Edit Game">
+</form>
+
+<!-- Delete Game Form -->
+<form action="admin.php" method="post">
+    <input type="hidden" name="action" value="delete">
+    <label for="delete-name">Name:</label>
+    <input type="text" id="delete-name" name="name" required>
+    <input type="submit" value="Delete Game">
+</form>
+
     </div>
 </body>
 </html>
